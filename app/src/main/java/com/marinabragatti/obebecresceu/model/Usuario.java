@@ -12,22 +12,17 @@ public class Usuario {
     private String email;
     private String senha;
     private Cep endereco;
+    private String telefone;
 
     public Usuario() {
 
     }
 
     public void salvar(){
-        setIdUsuario(getIdUser());
         DatabaseReference firebaseRef = ConfiguracaoFirebase.getFirebaseRef();
         DatabaseReference userRef = firebaseRef.child("usuarios")
-                .child(getIdUsuario());
+                .child(ConfiguracaoFirebase.getIdUser());
         userRef.setValue(this);
-    }
-
-    public String getIdUser(){
-        FirebaseAuth autenticacao = ConfiguracaoFirebase.getFirebaseAuth();
-        return autenticacao.getCurrentUser().getUid();
     }
 
     public String getIdUsuario() {
@@ -69,5 +64,13 @@ public class Usuario {
 
     public void setEndereco(Cep endereco) {
         this.endereco = endereco;
+    }
+
+    public String getTelefone() {
+        return telefone;
+    }
+
+    public void setTelefone(String telefone) {
+        this.telefone = telefone;
     }
 }

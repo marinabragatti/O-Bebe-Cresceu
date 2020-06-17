@@ -32,6 +32,8 @@ public class HomeActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle("O Bebê Cresceu!");
         setSupportActionBar(toolbar);
+
+
     }
 
     @Override
@@ -55,11 +57,14 @@ public class HomeActivity extends AppCompatActivity {
             case R.id.menuConfig :
                 abrirConfig();
                 break;
+            case R.id.menuInserirAnuncio :
+                abrirAddAnuncio();
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
 
-    public void inicializarComponenetes(){
+    private void inicializarComponenetes(){
         searchView = findViewById(R.id.materialSearch);
     }
 
@@ -74,5 +79,9 @@ public class HomeActivity extends AppCompatActivity {
 
     private void abrirConfig(){
         startActivity(new Intent(HomeActivity.this, ConfigUserActivity.class));
+    }
+
+    private void abrirAddAnuncio(){
+        startActivity(new Intent(HomeActivity.this, MeusAnunciosActivity.class));
     }
 }

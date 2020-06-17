@@ -75,12 +75,11 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(MainActivity.this, LoginActivity.class));
-                finish();
             }
         });
 
     }
-    public void cadastrarUsuario(){
+    private void cadastrarUsuario(){
         autenticacao.createUserWithEmailAndPassword(
                 usuario.getEmail(), usuario.getSenha()).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
             @Override
@@ -118,7 +117,7 @@ public class MainActivity extends AppCompatActivity {
         verificarUsuarioLogado();
     }
 
-    public void verificarUsuarioLogado(){
+    private void verificarUsuarioLogado(){
         //autenticacao.signOut();
         //Verifica se o usuário está logado
         if(autenticacao.getCurrentUser() != null){
@@ -126,11 +125,12 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void abrirTelaPrincipal(){
+    private void abrirTelaPrincipal(){
         startActivity(new Intent(this, HomeActivity.class));
+        finish();
     }
 
-    public void inicializarComponentes(){
+    private void inicializarComponentes(){
         campoNome = findViewById(R.id.name);
         campoEmail = findViewById(R.id.email);
         campoSenha = findViewById(R.id.password);

@@ -7,11 +7,11 @@
         android:icon="@drawable/ic_search"
         app:showAsAction="always"/>
 
-    <item android:title="Inserir Anúncio"
+    <item android:title="Meus Anúncios"
         android:id="@+id/menuInserirAnuncio"
         app:showAsAction="never"/>
 
-    <item android:title="Configurações"
+    <item android:title="Minha Conta"
         android:id="@+id/menuConfig"
         app:showAsAction="never"/>
 

@@ -63,7 +63,7 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    public void validarLogin(){
+    private void validarLogin(){
         autenticacao = ConfiguracaoFirebase.getFirebaseAuth();
         autenticacao.signInWithEmailAndPassword(
                 usuario.getEmail(), usuario.getSenha()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -89,12 +89,12 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    public void abrirTelaPrincipal(){
+    private void abrirTelaPrincipal(){
         startActivity(new Intent(this, HomeActivity.class));
         finish();
     }
 
-    public void inicializarComponenetes(){
+    private void inicializarComponenetes(){
         campoEmail = findViewById(R.id.email);
         campoSenha = findViewById(R.id.password);
         buttonEntrar = findViewById(R.id.buttonAcessar);

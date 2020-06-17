@@ -31,4 +31,19 @@ public class ConfiguracaoFirebase {
         }
         return storageReference;
     }
+
+    public static String getIdUser(){
+        FirebaseAuth autenticacao = ConfiguracaoFirebase.getFirebaseAuth();
+        return autenticacao.getCurrentUser().getUid();
+    }
+
+    public static DatabaseReference recuperarUsuario(){
+        firebaseAuth = ConfiguracaoFirebase.getFirebaseAuth();//Chamei os métodos acima para instanciar o usuario
+        firebaseRef = ConfiguracaoFirebase.getFirebaseRef();//Chamei os métodos acima para instanciar dataBase
+        String idUser = firebaseAuth.getCurrentUser().getUid();
+        DatabaseReference usuarioRef = firebaseRef.child("usuarios")
+                .child(idUser);
+
+        return usuarioRef; //Retorno o id do usuário no firebase
+    }
 }

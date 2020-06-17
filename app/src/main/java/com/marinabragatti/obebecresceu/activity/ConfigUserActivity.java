@@ -27,6 +27,7 @@ import com.marinabragatti.obebecresceu.api.ViaCepService;
 import com.marinabragatti.obebecresceu.helper.ConfiguracaoFirebase;
 import com.marinabragatti.obebecresceu.model.Cep;
 import com.marinabragatti.obebecresceu.model.Usuario;
+import com.santalu.maskedittext.MaskEditText;
 
 import org.json.JSONObject;
 
@@ -39,6 +40,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class ConfigUserActivity extends AppCompatActivity {
 
     private EditText campoNome, campoCep;
+    private MaskEditText campoTelefone;
     private TextView campoLogradouro, campoBairro, campoCidade, campoEstado;
     private Retrofit retrofit;
     private DatabaseReference firebaseRef;
@@ -58,7 +60,7 @@ public class ConfigUserActivity extends AppCompatActivity {
 
         inicializarComponentes();
         firebaseRef = ConfiguracaoFirebase.getFirebaseRef();
-        idUserLogado = getIdUser();
+        idUserLogado = ConfiguracaoFirebase.getIdUser();
 
         recuperarDadosUser();
 
@@ -85,7 +87,7 @@ public class ConfigUserActivity extends AppCompatActivity {
         });
     }
 
-    public void recuperarDadosUser(){
+    private void recuperarDadosUser(){
         DatabaseReference userRef = firebaseRef.child("usuarios").child(idUserLogado);//Recupera referência do user logado
         userRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -93,6 +95,9 @@ public class ConfigUserActivity extends AppCompatActivity {
                 if(dataSnapshot.getValue() != null){
                     Usuario usuario = dataSnapshot.getValue(Usuario.class);//Recupero o objeto user salvo no firebase
                     campoNome.setText(usuario.getNome());
+                    if(usuario.getTelefone() != null){
+                        campoTelefone.setText(usuario.getTelefone());
+                    }
                     if(usuario.getEndereco() != null){
                         campoCep.setText(usuario.getEndereco().getCep());
                         campoLogradouro.setText(usuario.getEndereco().getLogradouro());
@@ -155,12 +160,15 @@ public class ConfigUserActivity extends AppCompatActivity {
         String cidade = campoCidade.getText().toString();
         String estado = campoEstado.getText().toString();
         String cep = campoCep.getText().toString();
+        String telefone = campoTelefone.getRawText();
 
         if(!nome.isEmpty()) {
             if (layout.getVisibility() != View.GONE) {
                 Usuario usuario = new Usuario();
                 Cep endereco = new Cep();
                 usuario.setNome(nome);
+                usuario.setTelefone(telefone);
+                usuario.setEmail(usuario.getEmail());
                 endereco.setLogradouro(logradouro);
                 endereco.setBairro(bairro);
                 endereco.setLocalidade(cidade);
@@ -177,14 +185,10 @@ public class ConfigUserActivity extends AppCompatActivity {
         }
     }
 
-    public String getIdUser(){
-        FirebaseAuth autenticacao = ConfiguracaoFirebase.getFirebaseAuth();
-        return autenticacao.getCurrentUser().getUid();
-    }
-
-    public void inicializarComponentes(){
+    private void inicializarComponentes(){
         campoNome = findViewById(R.id.nomeUser);
         campoCep = findViewById(R.id.cepUser);
+        campoTelefone = findViewById(R.id.telUser);
         campoLogradouro = findViewById(R.id.textLogradouro);
         campoBairro = findViewById(R.id.textBairro);
         campoCidade = findViewById(R.id.textCidade);
