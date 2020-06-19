@@ -86,7 +86,8 @@ public class MainActivity extends AppCompatActivity {
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()){ //Verifica se o cadastro deu certo
                     usuario.salvar();
-                    startActivity(new Intent(getApplicationContext(), HomeActivity.class));
+                    startActivity(new Intent(getApplicationContext(), ConfigUserActivity.class));
+                    Toast.makeText(MainActivity.this, "Complete seu cadastro", Toast.LENGTH_SHORT).show();
                 }else{
                     String exception = "";
                     try{

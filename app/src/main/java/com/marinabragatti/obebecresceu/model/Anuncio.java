@@ -1,22 +1,22 @@
 package com.marinabragatti.obebecresceu.model;
 
-import android.provider.ContactsContract;
-
 import com.google.firebase.database.DatabaseReference;
 import com.marinabragatti.obebecresceu.helper.ConfiguracaoFirebase;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Anuncio {
+public class Anuncio implements Serializable {
 
     private String idAnuncio;
     private String titulo;
     private String descricao;
     private String tamanho;
-    private String genero;
     private String tipo;
     private String valor;
     private String telefone;
+    private String cidade;
+    private String estado;
     private List<String> fotos;
 
     public Anuncio() {
@@ -29,6 +29,16 @@ public class Anuncio {
         DatabaseReference anuncioRef = ConfiguracaoFirebase.getFirebaseRef()
                 .child("meus_anuncios");
         anuncioRef.child(ConfiguracaoFirebase.getIdUser())
+                .child(getIdAnuncio())
+                .setValue(this);
+        salvarAnuncioTodos();
+    }
+
+    public void salvarAnuncioTodos(){
+        DatabaseReference anuncioRef = ConfiguracaoFirebase.getFirebaseRef()
+                .child("anuncios");
+        anuncioRef.child(getTamanho())
+                .child(getTipo())
                 .child(getIdAnuncio())
                 .setValue(this);
     }
@@ -65,14 +75,6 @@ public class Anuncio {
         this.tamanho = tamanho;
     }
 
-    public String getGenero() {
-        return genero;
-    }
-
-    public void setGenero(String genero) {
-        this.genero = genero;
-    }
-
     public String getTipo() {
         return tipo;
     }
@@ -95,6 +97,22 @@ public class Anuncio {
 
     public void setTelefone(String telefone) {
         this.telefone = telefone;
+    }
+
+    public String getCidade() {
+        return cidade;
+    }
+
+    public void setCidade(String cidade) {
+        this.cidade = cidade;
+    }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
     }
 
     public List<String> getFotos() {

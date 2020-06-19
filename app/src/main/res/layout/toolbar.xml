@@ -17,5 +17,6 @@
     <com.miguelcatalan.materialsearchview.MaterialSearchView
         android:id="@+id/materialSearch"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:hint="Pesquisar itens ou cidades"/>
 </FrameLayout>

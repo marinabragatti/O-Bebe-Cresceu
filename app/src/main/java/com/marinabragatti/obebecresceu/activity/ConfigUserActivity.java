@@ -4,6 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.app.AlertDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -31,6 +33,7 @@ import com.santalu.maskedittext.MaskEditText;
 
 import org.json.JSONObject;
 
+import dmax.dialog.SpotsDialog;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -54,9 +57,8 @@ public class ConfigUserActivity extends AppCompatActivity {
 
         //Configuração Toolbar
         Toolbar toolbar = findViewById(R.id.toolbar);
-        toolbar.setTitle("Configurações");
+        toolbar.setTitle("Minha Conta");
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         inicializarComponentes();
         firebaseRef = ConfiguracaoFirebase.getFirebaseRef();
@@ -105,15 +107,16 @@ public class ConfigUserActivity extends AppCompatActivity {
                         campoCidade.setText(usuario.getEndereco().getLocalidade());
                         campoEstado.setText(usuario.getEndereco().getUf());
                     }
+                    if(usuario.getTelefone() != null && usuario.getEndereco().getLocalidade() != null)
+                        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+                    else
+                        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
                 }
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
             }
         });
-
     }
 
     private void recuperarEnderecoCep(String cep) {
@@ -150,7 +153,6 @@ public class ConfigUserActivity extends AppCompatActivity {
                 layout.setVisibility(View.GONE);
             }
         });
-
     }
 
     public void salvarDadosUser(View view){
@@ -163,25 +165,43 @@ public class ConfigUserActivity extends AppCompatActivity {
         String telefone = campoTelefone.getRawText();
 
         if(!nome.isEmpty()) {
-            if (layout.getVisibility() != View.GONE) {
-                Usuario usuario = new Usuario();
-                Cep endereco = new Cep();
-                usuario.setNome(nome);
-                usuario.setTelefone(telefone);
-                usuario.setEmail(usuario.getEmail());
-                endereco.setLogradouro(logradouro);
-                endereco.setBairro(bairro);
-                endereco.setLocalidade(cidade);
-                endereco.setUf(estado);
-                endereco.setCep(cep);
-                usuario.setEndereco(endereco);
-                usuario.salvar();
-                Toast.makeText(this, "Dados salvos com sucesso!", Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(this, "Insira um CEP válido", Toast.LENGTH_SHORT).show();
+            if (validarDados()) {
+                if (layout.getVisibility() != View.GONE) {
+                    Usuario usuario = new Usuario();
+                    Cep endereco = new Cep();
+                    usuario.setNome(nome);
+                    usuario.setTelefone(telefone);
+                    usuario.setEmail(usuario.getEmail());
+                    endereco.setLogradouro(logradouro);
+                    endereco.setBairro(bairro);
+                    endereco.setLocalidade(cidade);
+                    endereco.setUf(estado);
+                    endereco.setCep(cep);
+                    usuario.setEndereco(endereco);
+                    usuario.salvar();
+                    Toast.makeText(this, "Dados salvos com sucesso!", Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(getApplicationContext(), HomeActivity.class));
+                    finish();
+                }else {
+                    Toast.makeText(this, "Insira um CEP válido", Toast.LENGTH_SHORT).show();
+                }
             }
         }else {
             Toast.makeText(this, "Digite seu nome", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private boolean validarDados() {
+        if (campoTelefone.getText().length() == 14) {
+            if (campoCep.getText().length() == 9){
+                return true;
+            }else {
+                Toast.makeText(this, "CEP inválido", Toast.LENGTH_SHORT).show();
+                return false;
+            }
+        }else {
+            Toast.makeText(this, "Telefone inválido", Toast.LENGTH_SHORT).show();
+            return false;
         }
     }
 

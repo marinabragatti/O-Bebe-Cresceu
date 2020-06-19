@@ -30,7 +30,7 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:padding="10dp"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="0dp"
             android:inputType="text"
             android:textSize="15dp"
             android:hint="Nome"
@@ -90,13 +90,23 @@
             tools:visibility="visible">
 
             <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="15dp"
+                android:padding="5dp"
+                android:text="Endereço"
+                android:layout_marginTop="10dp"
+                android:textColor="@color/darkGrey"/>
+
+            <TextView
                 android:id="@+id/textLogradouro"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="15dp"
                 android:padding="10dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="5dp"
                 android:background="@drawable/box"
+                android:backgroundTint="#e6e6e6"
                 android:textColor="@color/darkGrey"/>
 
 
@@ -106,8 +116,9 @@
                 android:layout_height="wrap_content"
                 android:textSize="15dp"
                 android:padding="10dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="5dp"
                 android:background="@drawable/box"
+                android:backgroundTint="#e6e6e6"
                 android:textColor="@color/darkGrey"/>
 
             <LinearLayout
@@ -120,8 +131,9 @@
                 android:layout_height="wrap_content"
                 android:textSize="15dp"
                 android:padding="10dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="5dp"
                 android:background="@drawable/box"
+                android:backgroundTint="#e6e6e6"
                 android:textColor="@color/darkGrey"/>
 
             <TextView
@@ -130,9 +142,10 @@
                 android:layout_height="wrap_content"
                 android:textSize="15dp"
                 android:padding="10dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="5dp"
                 android:layout_marginStart="10dp"
                 android:background="@drawable/box"
+                android:backgroundTint="#e6e6e6"
                 android:textColor="@color/darkGrey"
                 android:layout_marginLeft="10dp" />
             </LinearLayout>

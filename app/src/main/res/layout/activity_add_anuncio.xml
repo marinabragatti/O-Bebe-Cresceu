@@ -72,8 +72,8 @@
             android:layout_marginRight="16dp"
             android:layout_marginLeft="16dp"
             android:inputType="text"
-            android:maxLength="30"
-            android:hint="Ex: Macacão usado poucas vezes"
+            android:maxLength="20"
+            android:hint="Ex: Macacão do Mickey"
             android:textColorHint="@color/colorPrimary"
             android:textColor="@color/darkGrey"
             android:background="@drawable/box"/>
@@ -106,53 +106,23 @@
             android:textColor="@color/darkGrey"
             android:background="@drawable/box"/>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:orientation="horizontal">
-
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Tamanho"
                 android:padding="5dp"
                 android:textColor="@color/darkGrey"
-                android:textSize="15dp"
-                android:layout_weight="2"
-                android:layout_marginLeft="16dp"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Gênero"
-                android:padding="5dp"
-                android:textColor="@color/darkGrey"
-                android:textSize="15dp"
-                android:layout_weight="3"
+                android:textSize="15sp"
+                android:layout_marginTop="15dp"
+                android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
 
             <Spinner
                 android:id="@+id/spinnerTamanho"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="16dp"
-                android:layout_weight="2"/>
-            <Spinner
-                android:id="@+id/spinnerGenero"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="16dp"
-                android:layout_weight="3"/>
-
-        </LinearLayout>
+                android:layout_marginRight="16dp"/>
 
             <RadioGroup
                 android:id="@+id/radioGroup"

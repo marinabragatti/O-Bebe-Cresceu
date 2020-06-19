@@ -53,7 +53,7 @@ public class AddAnuncioActivity extends AppCompatActivity implements View.OnClic
     private ImageView imagemUm, imagemDois, imagemTres;
     private EditText campoTitulo, campoDescricao;
     private CurrencyEditText campoValor;
-    private Spinner campoTamanho, campoGenero;
+    private Spinner campoTamanho;
     private RadioButton campoVenda, campoDoacao;
     private RadioGroup opcaoVendaDoacao;
     private CheckBox campoTelefone;
@@ -65,6 +65,8 @@ public class AddAnuncioActivity extends AppCompatActivity implements View.OnClic
     private DatabaseReference userRef;
     private String tipoAnuncio;
     private String telefone = "";
+    private String cidade = "";
+    private String estado = "";
     private AlertDialog loadingDialog;
 
     @Override
@@ -88,6 +90,7 @@ public class AddAnuncioActivity extends AppCompatActivity implements View.OnClic
 
         opcaoDeVendaOuDoacao();
         recuperarTelefone();
+        recuperarEstadoCidade();
     }
 
     //Método da implementação do View.OnClickListener para ouvir eventos de clique
@@ -163,24 +166,12 @@ public class AddAnuncioActivity extends AppCompatActivity implements View.OnClic
                 tamanhos);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         campoTamanho.setAdapter(adapter);
-
-        String [] genero = new String[]{
-                "Masculino",
-                "Feminino",
-                "Unissex"
-        };
-        ArrayAdapter<String> adapter1 = new ArrayAdapter<String>(
-                this, android.R.layout.simple_spinner_item,
-                genero);
-        adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        campoGenero.setAdapter(adapter1);
     }
 
     public void salvarAnuncio(View view){
         String titulo = campoTitulo.getText().toString();
         String descricao = campoDescricao.getText().toString();
         String tamanho = campoTamanho.getSelectedItem().toString();
-        String genero = campoGenero.getSelectedItem().toString();
         String valor = campoValor.getText().toString();
 
         if(validarCampos()){
@@ -188,10 +179,11 @@ public class AddAnuncioActivity extends AppCompatActivity implements View.OnClic
             anuncio.setTitulo(titulo);
             anuncio.setDescricao(descricao);
             anuncio.setTamanho(tamanho);
-            anuncio.setGenero(genero);
             anuncio.setTipo(tipoAnuncio);
             anuncio.setValor(valor);
             anuncio.setTelefone(telefone);
+            anuncio.setCidade(cidade);
+            anuncio.setEstado(estado);
             //Salvar imagem no Storage
             int tamanhoLista = listaFotosRecuperada.size();
             for(int i = 0; i < listaFotosRecuperada.size(); i++){
@@ -200,7 +192,7 @@ public class AddAnuncioActivity extends AppCompatActivity implements View.OnClic
             }
             loadingDialog = new SpotsDialog.Builder()
                     .setContext(this)
-                    .setMessage("Salvando anúncio...")
+                    .setMessage("Salvando anúncio")
                     .setCancelable(false)
                     .build();
             loadingDialog.show();
@@ -285,6 +277,21 @@ public class AddAnuncioActivity extends AppCompatActivity implements View.OnClic
         });
     }
 
+    private void recuperarEstadoCidade(){
+        userRef = ConfiguracaoFirebase.recuperarUsuario();
+        userRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Usuario usuario = dataSnapshot.getValue(Usuario.class);//Recuperar todos os dados do usuario logado
+                cidade = usuario.getEndereco().getLocalidade();
+                estado = usuario.getEndereco().getUf();
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
+    }
+
     public void exibirToast(String texto){
         Toast.makeText(this, texto, Toast.LENGTH_SHORT).show();
     }
@@ -303,7 +310,6 @@ public class AddAnuncioActivity extends AppCompatActivity implements View.OnClic
         campoDescricao = findViewById(R.id.descricao);
         campoValor = findViewById(R.id.valorAnuncio);
         campoTamanho = findViewById(R.id.spinnerTamanho);
-        campoGenero = findViewById(R.id.spinnerGenero);
         campoTelefone = findViewById(R.id.checkBox);
         layoutPagto = findViewById(R.id.layoutPagto);
     }

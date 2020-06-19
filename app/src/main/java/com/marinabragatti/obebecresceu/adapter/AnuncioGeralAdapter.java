@@ -17,32 +17,33 @@ import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class AnuncioAdapter extends RecyclerView.Adapter<AnuncioAdapter.MyViewHolder> {
+public class AnuncioGeralAdapter extends RecyclerView.Adapter<AnuncioGeralAdapter.MyViewHolder>{
 
     private List<Anuncio> anuncioList;
     private Context context;
 
-    public AnuncioAdapter(List<Anuncio> anuncioList, Context context) {
+    public AnuncioGeralAdapter(List<Anuncio> anuncioList, Context context) {
         this.anuncioList = anuncioList;
         this.context = context;
     }
 
     @NonNull
     @Override
-    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public AnuncioGeralAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemList = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.anuncios_adapter, parent, false);
+                .inflate(R.layout.anuncios_gerais_adapter, parent, false);
         return new MyViewHolder(itemList);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull AnuncioGeralAdapter.MyViewHolder holder, int position) {
         Anuncio anuncio = anuncioList.get(position);
         holder.tituloAnuncio.setText(anuncio.getTitulo());
         if(anuncio.getTipo().equals("v"))
             holder.valorAnuncio.setText(anuncio.getValor());
         else
             holder.valorAnuncio.setText("Doação");
+        holder.cidadeAnuncio.setText(anuncio.getCidade());
 
         List<String> urlFotos = anuncio.getFotos();
         String urlCapa = urlFotos.get(0);
@@ -61,14 +62,15 @@ public class AnuncioAdapter extends RecyclerView.Adapter<AnuncioAdapter.MyViewHo
 
     public class MyViewHolder extends RecyclerView.ViewHolder{
         //itens que a view ieá exibir
-        TextView tituloAnuncio, valorAnuncio;
+        TextView tituloAnuncio, valorAnuncio, cidadeAnuncio;
         CircleImageView imgMeuAnuncio;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
-                tituloAnuncio = itemView.findViewById(R.id.textNome);
-                valorAnuncio = itemView.findViewById(R.id.textValor);
-                imgMeuAnuncio = itemView.findViewById(R.id.imageMeusAnuncios);
+            tituloAnuncio = itemView.findViewById(R.id.textNome);
+            valorAnuncio = itemView.findViewById(R.id.textValor);
+            cidadeAnuncio = itemView.findViewById(R.id.textCidade);
+            imgMeuAnuncio = itemView.findViewById(R.id.imageMeusAnuncios);
         }
     }
 
