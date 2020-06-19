@@ -67,6 +67,7 @@ public class AddAnuncioActivity extends AppCompatActivity implements View.OnClic
     private String telefone = "";
     private String cidade = "";
     private String estado = "";
+    private String email = "";
     private AlertDialog loadingDialog;
 
     @Override
@@ -184,6 +185,7 @@ public class AddAnuncioActivity extends AppCompatActivity implements View.OnClic
             anuncio.setTelefone(telefone);
             anuncio.setCidade(cidade);
             anuncio.setEstado(estado);
+            anuncio.setEmail(email);
             //Salvar imagem no Storage
             int tamanhoLista = listaFotosRecuperada.size();
             for(int i = 0; i < listaFotosRecuperada.size(); i++){
@@ -285,6 +287,7 @@ public class AddAnuncioActivity extends AppCompatActivity implements View.OnClic
                 Usuario usuario = dataSnapshot.getValue(Usuario.class);//Recuperar todos os dados do usuario logado
                 cidade = usuario.getEndereco().getLocalidade();
                 estado = usuario.getEndereco().getUf();
+                email = ConfiguracaoFirebase.getFirebaseAuth().getCurrentUser().getEmail();
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {

@@ -17,6 +17,7 @@ public class Anuncio implements Serializable {
     private String telefone;
     private String cidade;
     private String estado;
+    private String email;
     private List<String> fotos;
 
     public Anuncio() {
@@ -113,6 +114,14 @@ public class Anuncio implements Serializable {
 
     public void setEstado(String estado) {
         this.estado = estado;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public List<String> getFotos() {

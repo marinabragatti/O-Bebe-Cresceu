@@ -75,13 +75,30 @@
 
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/semAnuncioHome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ops! \nNão temos anúncios\ncom esses filtros :("
+        android:textStyle="bold"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="32dp"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:layout_marginTop="200dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginLeft="30dp"
+        tools:visibility="visible"
+        android:visibility="gone"/>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerAnunciosTodos"
         android:layout_width="match_parent"
-        android:layout_height="600dp"
+        android:layout_height="590dp"
         android:layout_margin="10dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/toolbarUser"/>
+
 
 </LinearLayout>

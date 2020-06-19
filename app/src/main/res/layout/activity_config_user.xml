@@ -48,7 +48,7 @@
             android:layout_marginTop="5dp"
             android:padding="10dp"
             android:ems="10"
-            android:hint="Telefone"
+            android:hint="Whatsapp"
             android:textSize="15dp"
             android:textColorHint="@color/colorPrimary"
             android:textColor="@color/darkGrey"

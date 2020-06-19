@@ -187,7 +187,7 @@
             android:id="@+id/checkBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Mostrar meu telefone no anúncio"
+            android:text="Mostrar meu whatsapp no anúncio"
             android:textColor="@color/darkGrey"
             android:layout_marginTop="15dp"
             android:layout_marginRight="16dp"

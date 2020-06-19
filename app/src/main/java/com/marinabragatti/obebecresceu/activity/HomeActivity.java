@@ -19,6 +19,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -46,6 +47,7 @@ public class HomeActivity extends AppCompatActivity {
     private FirebaseAuth autenticacao;
     private MaterialSearchView searchView;
     private Button buttonLimpar;
+    private TextView semAnuncio;
     private RecyclerView recyclerView;
     private AnuncioGeralAdapter anuncioAdapter;
     private List<Anuncio> anuncios = new ArrayList<>();
@@ -73,14 +75,12 @@ public class HomeActivity extends AppCompatActivity {
         searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                String textoDigitado = query.toLowerCase();
-                pesquisarAnunciosTitulo(textoDigitado);
-                return true;
+                return false;
             }
             @Override
             public boolean onQueryTextChange(String newText) {
                 String textoDigitado = newText.toLowerCase();
-                pesquisarAnunciosCidade(textoDigitado);
+                pesquisarAnunciosTituloCidade(textoDigitado);
                 return true;
             }
         });
@@ -104,23 +104,20 @@ public class HomeActivity extends AppCompatActivity {
                         Anuncio anuncioSelecionado = anuncios.get(position);
                         Intent intent = new Intent(HomeActivity.this, DetalhesProdutoActivity.class);
                         intent.putExtra("anuncioSelecionado", anuncioSelecionado);
+                        startActivity(intent);
                     }
-
                     @Override
                     public void onLongItemClick(View view, int position) {
-
                     }
-
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
                     }
                 }
                 )
         );
     }
 
-    private void pesquisarAnunciosTitulo(String textoDigitado){
+    private void pesquisarAnunciosTituloCidade(String textoDigitado){
         anuncios.clear();
         if(textoDigitado.length()>2){
             anunciosUserRef = ConfiguracaoFirebase.getFirebaseRef()
@@ -140,45 +137,15 @@ public class HomeActivity extends AppCompatActivity {
                     }
                     if (!listaAuxiliar.isEmpty()) {
                         for (Anuncio u : listaAuxiliar) {
-                            if (u.getTitulo().toLowerCase().contains(textoDigitado.toLowerCase())) {
+                            if (u.getTitulo().toLowerCase().contains(textoDigitado.toLowerCase()) || u.getCidade().toLowerCase().contains(textoDigitado.toLowerCase())) {
                                 anuncios.add(u);
                             }
                         }
                     }
-                    anuncioAdapter.notifyDataSetChanged();
-                }
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
-                }
-            });
-        }
-    }
-
-    private void pesquisarAnunciosCidade(String textoDigitado){
-        anuncios.clear();
-        if(textoDigitado.length()>2){
-            anunciosUserRef = ConfiguracaoFirebase.getFirebaseRef()
-                    .child("anuncios");
-            Query query = anunciosUserRef.orderByChild("cidade");
-            query.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    anuncios.clear();
-                    List<Anuncio> listaAuxiliar = new ArrayList<>();
-                    for(DataSnapshot tamanho : dataSnapshot.getChildren()){
-                        for(DataSnapshot tipo : tamanho.getChildren()){
-                            for(DataSnapshot anunciosTodos : tipo.getChildren()){
-                                listaAuxiliar.add(anunciosTodos.getValue(Anuncio.class));
-                            }
-                        }
-                    }
-                    if (!listaAuxiliar.isEmpty()) {
-                        for (Anuncio u : listaAuxiliar) {
-                            if (u.getCidade().toLowerCase().contains(textoDigitado.toLowerCase())) {
-                                anuncios.add(u);
-                            }
-                        }
-                    }
+                    if(anuncios.isEmpty())
+                        semAnuncio.setVisibility(View.VISIBLE);
+                    else
+                        semAnuncio.setVisibility(View.GONE);
                     anuncioAdapter.notifyDataSetChanged();
                 }
                 @Override
@@ -247,7 +214,6 @@ public class HomeActivity extends AppCompatActivity {
                     filtroTipo = "v";
                 else
                     filtroTipo = "d";
-
                 recuperarAnunciosTipo();
             });
             alertDialog.setNegativeButton("Cancelar", (dialog, which) -> {
@@ -273,6 +239,10 @@ public class HomeActivity extends AppCompatActivity {
                         anuncios.add(anunciosTodos.getValue(Anuncio.class));
                     }
                 }
+                if(anuncios.isEmpty())
+                    semAnuncio.setVisibility(View.VISIBLE);
+                else
+                    semAnuncio.setVisibility(View.GONE);
                 Collections.reverse(anuncios);
                 anuncioAdapter.notifyDataSetChanged();
                 loadingDialog.dismiss();
@@ -296,6 +266,10 @@ public class HomeActivity extends AppCompatActivity {
                 for(DataSnapshot anunciosTodos : dataSnapshot.getChildren()){
                     anuncios.add(anunciosTodos.getValue(Anuncio.class));
                 }
+                if(anuncios.isEmpty())
+                    semAnuncio.setVisibility(View.VISIBLE);
+                else
+                    semAnuncio.setVisibility(View.GONE);
                 Collections.reverse(anuncios);
                 anuncioAdapter.notifyDataSetChanged();
                 loadingDialog.dismiss();
@@ -346,6 +320,7 @@ public class HomeActivity extends AppCompatActivity {
 
     private void recuperaAnuncios() {
         //Mostra todos os anúncios
+        filtrandoTamanho = false;
         loadCarregando();
         anunciosUserRef = ConfiguracaoFirebase.getFirebaseRef()
                 .child("anuncios");
@@ -360,6 +335,10 @@ public class HomeActivity extends AppCompatActivity {
                         }
                     }
                 }
+                if(anuncios.isEmpty())
+                    semAnuncio.setVisibility(View.VISIBLE);
+                else
+                    semAnuncio.setVisibility(View.GONE);
                 Collections.reverse(anuncios);
                 anuncioAdapter.notifyDataSetChanged();
                 loadingDialog.dismiss();
@@ -383,6 +362,7 @@ public class HomeActivity extends AppCompatActivity {
         searchView = findViewById(R.id.materialSearch);
         recyclerView = findViewById(R.id.recyclerAnunciosTodos);
         buttonLimpar = findViewById(R.id.buttonLimpar);
+        semAnuncio = findViewById(R.id.semAnuncioHome);
     }
 
     private void deslogarUser(){

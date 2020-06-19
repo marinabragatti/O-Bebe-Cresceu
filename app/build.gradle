@@ -57,4 +57,6 @@ dependencies {
     implementation 'com.google.android.material:material:1.1.0'
     //Spots progress dialog
     implementation 'com.github.d-max:spots-dialog:1.1@aar'
+    //CarouselView
+    implementation 'com.synnapps:carouselview:0.1.5'
 }

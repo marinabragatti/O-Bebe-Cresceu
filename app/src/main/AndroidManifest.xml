@@ -3,7 +3,6 @@
     package="com.marinabragatti.obebecresceu">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> <!-- Permissões câmera -->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
@@ -13,7 +12,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.DetalhesProdutoActivity"></activity>
+        <activity android:name=".activity.DetalhesProdutoActivity"
+            android:parentActivityName=".activity.HomeActivity"></activity>
         <activity
             android:name=".activity.AddAnuncioActivity"
             android:parentActivityName=".activity.MeusAnunciosActivity"
